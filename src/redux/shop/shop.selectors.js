@@ -7,14 +7,24 @@ export const selectCollections = createSelector(
   shop => shop.collections
 );
 
-//This is turning the object back into an array 
+//If there is a collctions, return object, if not return empty array. This is turning the object back into an array 
 export const selectCollectionsForPreview = createSelector(
   [selectCollections],
-  collections => Object.keys(collections).map(key => collections[key])
+  collections => (collections ? Object.keys(collections).map(key => collections[key]) : [])
 );
 
 export const selectCollection = collectionUrlParam =>
   createSelector(
     [selectCollections],
-    collections => collections[collectionUrlParam]
+    collections => collections ? collections[collectionUrlParam] : null
   );
+
+export const selectIsCollectionFetching = createSelector(
+  [selectShop],
+  shop => shop.IsFetching
+);
+
+export const selectIsCollectionLoaded = createSelector(
+  [selectShop],
+  shop => !!shop.collections
+);
